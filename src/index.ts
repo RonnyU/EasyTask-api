@@ -1,10 +1,15 @@
 import express from 'express';
+//import dotenv from 'dotenv';
+import connectDb from './config/db';
+import config from './config/config';
 
 const app = express();
-
+//dotenv.config();
+connectDb();
+console.log(process.env.MONGO_URI);
 app.use(express.json());
 
-const PORT = 3000;
+const PORT = config.PORT || 4000;
 
 app.get('/ping', (_, res) => {
   console.log('someone pinged here!!');

@@ -1,17 +1,17 @@
-import mongoose from 'mongoose';
-import config from './config';
+import mongoose from 'mongoose'
+import config from './config'
 
-const connectDb = async () => {
+const connectDb = async (): Promise<void> => {
   try {
-    const connection = await mongoose.connect(config.MONGO_URI);
+    const connection = await mongoose.connect(config.MONGO_URI)
 
-    const url = `${connection.connection.host}:${connection.connection.port}`;
+    const url = `${connection.connection.host}:${connection.connection.port}`
 
-    console.log(`MongoDB is up : ${url}`);
+    console.log(`MongoDB is up : ${url}`)
   } catch (error) {
-    console.log(`error: ${(error as Error).message}`);
-    process.exit(1);
+    console.log(`error: ${(error as Error).message}`)
+    process.exit(1)
   }
-};
+}
 
-export default connectDb;
+export default connectDb

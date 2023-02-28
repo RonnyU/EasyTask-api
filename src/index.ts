@@ -1,7 +1,7 @@
 import express from 'express'
 import connectDb from './config/db'
 import config from './config/config'
-import { userRoute, projectRoute } from './routes'
+import { userRoute, projectRoute, taskRoute } from './routes'
 
 const app = express()
 connectDb().catch(() => {
@@ -20,6 +20,7 @@ app.get('/ping', (_, res) => {
 
 app.use('/api/users', userRoute)
 app.use('/api/projects', projectRoute)
+app.use('/api/tasks', taskRoute)
 
 app.listen(PORT, () => {
   console.log(`Server running ON PORT ${PORT}`)

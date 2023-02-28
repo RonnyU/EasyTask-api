@@ -12,7 +12,7 @@ const projectSchema = new Schema<IProject>({
     trim: true,
     required: true
   },
-  Deadline: {
+  deadline: {
     type: Date,
     default: Date.now()
   },

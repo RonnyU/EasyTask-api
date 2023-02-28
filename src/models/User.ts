@@ -1,15 +1,12 @@
-import mongoose, { Schema } from 'mongoose'
+import { Model, Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
+import { IUser, IUserMethods } from '../interfaces/userInterface'
 
-interface IUser {
-  name: string
-  password: string
-  email: string
-  token: string
-  confirm: boolean
-}
+// Create a new Model type that knows about IUserMethods...
+export type UserModel = Model<IUser, {}, IUserMethods>
 
-const userSchema = new Schema<IUser>(
+//* Schema Model
+const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
     name: {
       type: String,
@@ -36,10 +33,18 @@ const userSchema = new Schema<IUser>(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
+    versionKey: false
   }
 )
 
+//* Schema Methods
+userSchema.method('checkPassword', async function (password: string) {
+  // console.log(password, this.password, await bcrypt.compare(password, this.password))
+  return await bcrypt.compare(password, this.password)
+})
+
+//* Schema Middleware
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next()
@@ -50,6 +55,6 @@ userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, salt)
 })
 
-const User = mongoose.model('User', userSchema)
+const User = model('User', userSchema)
 
 export default User

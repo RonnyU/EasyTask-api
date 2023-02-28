@@ -9,5 +9,6 @@ module.exports = {
     './node_modules/ts-standard/eslintrc.json'
   ],
   rules: {
+    '@typescript-eslint/strict-boolean-expressions': 'off'
   }
 }

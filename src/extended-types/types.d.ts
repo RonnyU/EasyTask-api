@@ -7,3 +7,9 @@ export interface IGetUserAuthInfoRequest extends Request {
 export interface JwtPayload {
   id: string
 }
+
+export interface confirmationEmail {
+  name: string
+  email: string
+  token: string
+}

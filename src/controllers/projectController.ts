@@ -1,12 +1,11 @@
 import { Request, Response } from 'express'
 import { IGetUserAuthInfoRequest } from '../extended-types/types'
 import Project from '../models/Project'
-import Task from '../models/Task'
 
 const getProjects = async (req: Request, res: Response): Promise<any> => {
   try {
     const projects = await Project.find().where('createdby').equals((req as IGetUserAuthInfoRequest).user)
-    res.json({ projects })
+    res.json(projects)
   } catch (error) {
     console.log(error)
   }
@@ -18,7 +17,7 @@ const createProject = async (req: Request, res: Response): Promise<any> => {
 
   try {
     const projectStored = await project.save()
-    res.json({ projectStored })
+    res.json(projectStored)
   } catch (error) {
     console.log('error when trying to create a new project: ', error)
   }
@@ -42,10 +41,7 @@ const getProject = async (req: Request, res: Response): Promise<any> => {
       return res.status(401).json({ msg: error.message })
     }
 
-    // get all task related to the project
-    const task = await Task.find().where('project').equals(project._id)
-
-    res.json({ project, task })
+    res.json(project)
   } catch (error) {
     console.log(error)
   }
@@ -75,7 +71,7 @@ const editProject = async (req: Request, res: Response): Promise<any> => {
     project.client = client || project.client
 
     const projectStored = await project.save()
-    res.json({ projectStored })
+    res.json(projectStored)
   } catch (error) {
     console.log(error)
   }

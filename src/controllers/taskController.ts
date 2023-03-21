@@ -22,7 +22,12 @@ const addTask = async (req: Request, res: Response): Promise<any> => {
 
   try {
     const taskStored = await Task.create(req.body)
-    res.json({ taskStored })
+
+    // save ID into the project
+    projectFound.tasks.push(taskStored._id)
+    await projectFound.save()
+
+    res.json(taskStored)
   } catch (error) {
     console.log(error)
   }
@@ -44,7 +49,7 @@ const getTask = async (req: Request, res: Response): Promise<any> => {
     error = new Error('Invalid Action')
     return res.status(401).json({ msg: error.message })
   }
-  res.json({ task })
+  res.json(task)
 }
 
 const updateTask = async (req: Request, res: Response): Promise<any> => {
@@ -72,7 +77,7 @@ const updateTask = async (req: Request, res: Response): Promise<any> => {
 
   try {
     const taskStored = await task.save()
-    res.json({ taskStored })
+    res.json(taskStored)
   } catch (error) {
     console.log(error)
   }

@@ -25,6 +25,12 @@ const projectSchema = new Schema<IProject>({
     type: Types.ObjectId,
     ref: 'User'
   },
+  tasks: [
+    {
+      type: Types.ObjectId,
+      ref: 'Task'
+    }
+  ],
   partners: [
     {
       type: Types.ObjectId,

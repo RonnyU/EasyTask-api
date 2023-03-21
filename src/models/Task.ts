@@ -24,7 +24,7 @@ const taskSchema = new Schema<ITask>({
   priority: {
     type: String,
     required: true,
-    enum: ['low', 'intermediate', 'high']
+    enum: ['Low', 'Intermediate', 'High']
   },
   project: {
     type: Types.ObjectId,

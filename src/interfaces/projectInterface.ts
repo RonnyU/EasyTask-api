@@ -1,4 +1,5 @@
-import { IUser } from '../interfaces/userInterface'
+import { Types } from 'mongoose'
+import { IUser } from './userInterface'
 
 export interface IProject {
   name: string
@@ -6,5 +7,6 @@ export interface IProject {
   deadline: Date
   client: string
   createdby: IUser
-  partners: IUser[]
+  tasks: Types.ObjectId[]
+  partners: Types.ObjectId[]
 }

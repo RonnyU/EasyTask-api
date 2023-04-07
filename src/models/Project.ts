@@ -31,7 +31,7 @@ const projectSchema = new Schema<IProject>({
       ref: 'Task'
     }
   ],
-  partners: [
+  collaborator: [
     {
       type: Types.ObjectId,
       ref: 'User'

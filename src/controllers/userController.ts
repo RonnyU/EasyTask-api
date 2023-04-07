@@ -35,6 +35,7 @@ const create = async (req: Request, res: Response): Promise<any> => {
 const authenticate = async (req: Request, res: Response): Promise<any> => {
   let error: Error
   const { email, password } = req.body
+
   const user = await User.findOne({ email })
   // check if the user exists
   if (user == null) {

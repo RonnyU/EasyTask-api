@@ -29,6 +29,10 @@ const taskSchema = new Schema<ITask>({
   project: {
     type: Types.ObjectId,
     ref: 'Project'
+  },
+  completed: {
+    type: Types.ObjectId,
+    ref: 'User'
   }
 }, {
   versionKey: false,

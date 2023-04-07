@@ -10,7 +10,7 @@ import {
 
 const router = Router()
 
-router.post('', checkAuth as RequestHandler, addTask as RequestHandler)
+router.post('/', checkAuth as RequestHandler, addTask as RequestHandler)
 
 router.route('/:id')
   .get(checkAuth as RequestHandler, getTask as RequestHandler)

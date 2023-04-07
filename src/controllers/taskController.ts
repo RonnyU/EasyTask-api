@@ -101,15 +101,42 @@ const removeTask = async (req: Request, res: Response): Promise<any> => {
   }
 
   try {
-    await task.deleteOne()
+    const project = await Project.findById(task.project)
+    project?.tasks.pull(task._id)
+
+    await Promise.allSettled([await project?.save(), await task.deleteOne()])
     res.json({ msg: 'Task removed' })
   } catch (error) {
     console.log(error)
   }
 }
 
-const changeStatus = async (_req: Request, res: Response): Promise<any> => {
-  res.json({ msg: 'WORKING change status' })
+const changeStatus = async (req: Request, res: Response): Promise<any> => {
+  let error: Error
+  const { id } = req.params
+  const userId = (req as IGetUserAuthInfoRequest).user._id
+
+  const task = await Task.findById(id).populate('project')
+
+  if (!task) {
+    error = new Error('The task does not exists')
+    return res.status(404).json({ msg: error.message })
+  }
+
+  const validCollaborator = task.project.collaborator.some((col) => col._id.toString() === userId.toString())
+
+  if (String(task.project.createdby) !== String(userId) && !validCollaborator) {
+    error = new Error('Invalid Action')
+    return res.status(401).json({ msg: error.message })
+  }
+
+  task.status = !task.status
+  task.completed = userId
+  await task.save()
+
+  const taskStored = await Task.findById(id).populate('project').populate('completed')
+
+  res.json(taskStored)
 }
 
 export {

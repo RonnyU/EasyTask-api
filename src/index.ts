@@ -10,7 +10,7 @@ connectDb().catch(() => {
 })
 
 // config cors
-const whiteList = [config.FRONTED_URL]
+const whiteList = [config.FRONTED_URL, 'http://localhost:4000']
 
 const corsOptions = {
   origin: function (origin: any, callback: any) {

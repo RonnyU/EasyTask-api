@@ -1,4 +1,5 @@
 import { IProject } from './projectInterface'
+import { IUser } from './userInterface'
 
 export interface ITask {
   name: string
@@ -7,4 +8,5 @@ export interface ITask {
   deadline: Date
   priority: string
   project: IProject
+  completed: IUser
 }

@@ -7,6 +7,6 @@ export interface IProject {
   deadline: Date
   client: string
   createdby: IUser
-  tasks: Types.ObjectId[]
-  partners: Types.ObjectId[]
+  tasks: Types.Array<Types.ObjectId>
+  collaborator: Types.Array<Types.ObjectId>
 }

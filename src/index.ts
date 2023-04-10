@@ -3,6 +3,7 @@ import cors from 'cors'
 import connectDb from './config/db'
 import config from './config/config'
 import { userRoute, projectRoute, taskRoute } from './routes'
+import { Server } from 'socket.io'
 
 const app = express()
 connectDb().catch(() => {
@@ -38,6 +39,38 @@ app.use('/api/users', userRoute)
 app.use('/api/projects', projectRoute)
 app.use('/api/tasks', taskRoute)
 
-app.listen(PORT, () => {
+const easyTaskServer = app.listen(PORT, () => {
   console.log(`Server running ON PORT ${PORT}`)
+})
+
+//* SOCKET IO
+const io = new Server(easyTaskServer, {
+  pingTimeout: 60000,
+  cors: {
+    origin: config.FRONTED_URL
+  }
+})
+
+io.on('connection', (socket) => {
+  socket.on('openProject', async (projectId) => {
+    await socket.join(projectId)
+  })
+
+  socket.on('newTask', async (task) => {
+    const projectId = task.project
+    socket.to(projectId).emit('taskAdded', task)
+  })
+
+  socket.on('deleteTask', async (task) => {
+    const projectId = task.project
+    socket.to(projectId).emit('taskDeleted', task)
+  })
+  socket.on('updateTask', async (task) => {
+    const projectId = task.project._id
+    socket.to(projectId).emit('taskUpdated', task)
+  })
+  socket.on('completeTask', async (task) => {
+    const projectId = task.project._id
+    socket.to(projectId).emit('taskCompleted', task)
+  })
 })

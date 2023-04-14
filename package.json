@@ -7,7 +7,7 @@
     "build": "tsc",
     "lint": "ts-standard",
     "dev": "ts-node-dev src/index.ts",
-    "start": "tsc && node build/index.js"
+    "start": "node build/index.js"
   },
   "keywords": [
     "MERN",

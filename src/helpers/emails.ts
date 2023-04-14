@@ -6,6 +6,7 @@ const ReturnNodeMailerTransporter = (): Transporter => {
   return nodemailer.createTransport({
     host: config.EMAIL_HOST,
     port: config.EMAIL_PORT,
+    secure: true,
     auth: {
       user: config.EMAIL_USER,
       pass: config.EMAIL_PASS
@@ -19,7 +20,7 @@ export const forgotPassword = async (data: confirmationEmail): Promise<void> => 
   const transport = ReturnNodeMailerTransporter()
 
   await transport.sendMail({
-    from: '"EasyTask - Project Management" <account@easytask.com>',
+    from: '"EasyTask - Project Management" <ronnymagdiel@zohomail.com>',
     to: email,
     subject: 'EasyTask - Reset your password',
     text: 'Reset your password',
@@ -36,7 +37,7 @@ export const registerEmail = async (data: confirmationEmail): Promise<void> => {
   const transport = ReturnNodeMailerTransporter()
 
   await transport.sendMail({
-    from: '"EasyTask - Project Management" <account@easytask.com>',
+    from: '"EasyTask - Project Management" <ronnymagdiel@zohomail.com>',
     to: email,
     subject: 'EasyTask - Confirmation Email',
     text: 'Confirm your account to use Easy Task web app',

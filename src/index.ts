@@ -11,11 +11,12 @@ connectDb().catch(() => {
 })
 
 // config cors
-const whiteList = [config.FRONTED_URL, 'http://localhost:4000']
+
+const whiteList = [config.FRONTED_URL]
 
 const corsOptions = {
   origin: function (origin: any, callback: any) {
-    if (whiteList.includes(origin)) {
+    if (whiteList.includes(origin) || origin === undefined) {
       callback(null, true)
     } else {
       callback(new Error('Cors Error'))
